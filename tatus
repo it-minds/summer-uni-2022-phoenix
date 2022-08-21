@@ -1,0 +1,90 @@
+[1mdiff --git a/assets/css/app.css b/assets/css/app.css[m
+[1mindex 19c2e51..04efcc9 100644[m
+[1m--- a/assets/css/app.css[m
+[1m+++ b/assets/css/app.css[m
+[36m@@ -1,5 +1,8 @@[m
+[32m+[m[32m@import "tailwindcss/base";[m
+[32m+[m[32m@import "tailwindcss/components";[m
+[32m+[m[32m@import "tailwindcss/utilities";[m
+[32m+[m
+ /* This file is for your main application CSS */[m
+[31m-@import "./phoenix.css";[m
+ [m
+ /* Alerts and form errors used by phx.new */[m
+ .alert {[m
+[36m@@ -118,3 +121,4 @@[m
+   0% { opacity: 1; }[m
+   100% { opacity: 0; }[m
+ }[m
+[41m+[m
+[1mdiff --git a/assets/js/app.js b/assets/js/app.js[m
+[1mindex 2ca06a5..bf203ba 100644[m
+[1m--- a/assets/js/app.js[m
+[1m+++ b/assets/js/app.js[m
+[36m@@ -1,6 +1,5 @@[m
+ // We import the CSS which is extracted to its own file by esbuild.[m
+ // Remove this line if you add a your own CSS build pipeline (e.g postcss).[m
+[31m-import "../css/app.css"[m
+ [m
+ // If you want to use Phoenix channels, run `mix help phx.gen.channel`[m
+ // to get started and then uncomment the line below.[m
+[1mdiff --git a/config/config.exs b/config/config.exs[m
+[1mindex 3449b2b..b85e46f 100644[m
+[1m--- a/config/config.exs[m
+[1m+++ b/config/config.exs[m
+[36m@@ -40,6 +40,17 @@[m [mconfig :esbuild,[m
+     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}[m
+   ][m
+ [m
+[32m+[m[32mconfig :tailwind,[m
+[32m+[m[32m  version: "3.1.6",[m
+[32m+[m[32m  default: [[m
+[32m+[m[32m    args: ~w([m
+[32m+[m[32m      --config=tailwind.config.js[m
+[32m+[m[32m      --input=css/app.css[m
+[32m+[m[32m      --output=../priv/static/assets/app.css[m
+[32m+[m[32m    ),[m
+[32m+[m[32m    cd: Path.expand("../assets", __DIR__)[m
+[32m+[m[32m  ][m
+[32m+[m
+ # Configures Elixir's Logger[m
+ config :logger, :console,[m
+   format: "$time $metadata[$level] $message\n",[m
+[1mdiff --git a/config/dev.exs b/config/dev.exs[m
+[1mindex c1489fb..30772a0 100644[m
+[1m--- a/config/dev.exs[m
+[1m+++ b/config/dev.exs[m
+[36m@@ -26,7 +26,8 @@[m [mconfig :summeruni, SummerUniWeb.Endpoint,[m
+   secret_key_base: "UvMD/CeMxyVx21Rcer3NJHKtyknLICP1JIRfZ1glG9HFVAy9k92nZ41dnLrBLUGm",[m
+   watchers: [[m
+     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)[m
+[31m-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}[m
+[32m+[m[32m    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},[m
+[32m+[m[32m    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}[m
+   ][m
+ [m
+ # ## SSL Support[m
+[1mdiff --git a/mix.exs b/mix.exs[m
+[1mindex c690127..bb63fc6 100644[m
+[1m--- a/mix.exs[m
+[1m+++ b/mix.exs[m
+[36m@@ -41,6 +41,7 @@[m [mdefmodule SummerUni.MixProject do[m
+       {:phoenix_live_reload, "~> 1.2", only: :dev},[m
+       {:phoenix_live_view, "~> 0.17.5"},[m
+       {:floki, ">= 0.30.0", only: :test},[m
+[32m+[m[32m      {:tailwind, "~> 0.1.6", runtime: Mix.env() == :dev},[m
+       {:phoenix_live_dashboard, "~> 0.6"},[m
+       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},[m
+       {:swoosh, "~> 1.3"},[m
+[1mdiff --git a/mix.lock b/mix.lock[m
+[1mindex ac7b3d8..e29c3e7 100644[m
+[1m--- a/mix.lock[m
+[1m+++ b/mix.lock[m
+[36m@@ -29,6 +29,7 @@[m
+   "postgrex": {:hex, :postgrex, "0.16.4", "26d998467b4a22252285e728a29d341e08403d084e44674784975bb1cd00d2cb", [:mix], [{:connection, "~> 1.1", [hex: :connection, repo: "hexpm", optional: false]}, {:db_connection, "~> 2.1", [hex: :db_connection, repo: "hexpm", optional: false]}, {:decimal, "~> 1.5 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}, {:table, "~> 0.1.0", [hex: :table, repo: "hexpm", optional: true]}], "hexpm", "3234d1a70cb7b1e0c95d2e242785ec2a7a94a092bbcef4472320b950cfd64c5f"},[m
+   "ranch": {:hex, :ranch, "1.8.0", "8c7a100a139fd57f17327b6413e4167ac559fbc04ca7448e9be9057311597a1d", [:make, :rebar3], [], "hexpm", "49fbcfd3682fab1f5d109351b61257676da1a2fdbe295904176d5e521a2ddfe5"},[m
+   "swoosh": {:hex, :swoosh, "1.7.4", "f967d9b2659e81bab241b96267aae1001d35c2beea2df9c03dcf47b007bf566f", [:mix], [{:cowboy, "~> 1.1 or ~> 2.4", [hex: :cowboy, repo: "hexpm", optional: true]}, {:ex_aws, "~> 2.1", [hex: :ex_aws, repo: "hexpm", optional: true]}, {:finch, "~> 0.6", [hex: :finch, repo: "hexpm", optional: true]}, {:gen_smtp, "~> 0.13 or ~> 1.0", [hex: :gen_smtp, repo: "hexpm", optional: true]}, {:hackney, "~> 1.9", [hex: :hackney, repo: "hexpm", optional: true]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}, {:mail, "~> 0.2", [hex: :mail, repo: "hexpm", optional: true]}, {:mime, "~> 1.1 or ~> 2.0", [hex: :mime, repo: "hexpm", optional: false]}, {:plug_cowboy, ">= 1.0.0", [hex: :plug_cowboy, repo: "hexpm", optional: true]}, {:telemetry, "~> 0.4.2 or ~> 1.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "1553d994b4cf069162965e63de1e1c53d8236e127118d21e56ce2abeaa3f25b4"},[m
+[32m+[m[32m  "tailwind": {:hex, :tailwind, "0.1.8", "3762defebc8e328fb19ff1afb8c37723e53b52be5ca74f0b8d0a02d1f3f432cf", [:mix], [{:castore, ">= 0.0.0", [hex: :castore, repo: "hexpm", optional: false]}], "hexpm", "40061d1bf2c0505c6b87be7a3ed05243fc10f6e1af4bac3336db8358bc84d4cc"},[m
+   "telemetry": {:hex, :telemetry, "1.1.0", "a589817034a27eab11144ad24d5c0f9fab1f58173274b1e9bae7074af9cbee51", [:rebar3], [], "hexpm", "b727b2a1f75614774cff2d7565b64d0dfa5bd52ba517f16543e6fc7efcc0df48"},[m
+   "telemetry_metrics": {:hex, :telemetry_metrics, "0.6.1", "315d9163a1d4660aedc3fee73f33f1d355dcc76c5c3ab3d59e76e3edf80eef1f", [:mix], [{:telemetry, "~> 0.4 or ~> 1.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "7be9e0871c41732c233be71e4be11b96e56177bf15dde64a8ac9ce72ac9834c6"},[m
+   "telemetry_poller": {:hex, :telemetry_poller, "1.0.0", "db91bb424e07f2bb6e73926fcafbfcbcb295f0193e0a00e825e589a0a47e8453", [:rebar3], [{:telemetry, "~> 1.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "b3a24eafd66c3f42da30fc3ca7dda1e9d546c12250a2d60d7b81d264fbec4f6e"},[m
