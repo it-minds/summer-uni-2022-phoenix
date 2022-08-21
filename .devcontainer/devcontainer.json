@@ -3,18 +3,21 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",
-
   "settings": {
     "terminal.integrated.defaultProfile.linux": "bash"
   },
   "postCreateCommand": "",
-  "forwardPorts": [4000, 5432],
-
+  "forwardPorts": [
+    4000,
+    5432
+  ],
   "remoteUser": "vscode",
-
   "extensions": [
     "editorconfig.editorconfig",
     "github.vscode-pull-request-github",
-    "JakeBecker.elixir-ls"
+    "JakeBecker.elixir-ls",
+    "pantajoe.vscode-elixir-credo",
+    "animus-coop.vscode-elixir-mix-formatter",
+    "adamzapasnik.elixir-test-explorer"
   ]
 }

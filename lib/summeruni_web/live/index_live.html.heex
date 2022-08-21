@@ -1,11 +1,5 @@
 <div class="flex flex-col gap-8">
-    <%= for post <- @posts do %>
-      <div class="p-3 bg-white rounded-lg shadow flex flex-col gap-3 divide-y">
-          <div class="rounded-full h-16 w-16 bg-gray-400 grid items-center -translate-x-6 -translate-y-6"><span class="text-center font-bold text-white"><%= post.author.email |> String.slice(0..1) %></span></div>
-          <%= post.text %>
-          <div class="text-gray text-sm italic self-end"><%= post.inserted_at%></div>
-
-          <button phx-click="like_post" phx-value-id={post.id} class=""> like </button>
-      </div>
-    <% end %>
+  <%= for post <- @posts do %>
+    <.live_component module={SummerUniWeb.PostComponent} post={post} id={post.id} />
+  <% end %>
 </div>
