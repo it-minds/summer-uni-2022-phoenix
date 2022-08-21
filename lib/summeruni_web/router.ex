@@ -74,7 +74,9 @@ defmodule SummerUniWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     live_session :authed, on_mount: {SummerUniWeb.MiddlewareLive, :authed} do
-      live "/", Live.IndexLive
+      live "/", Live.IndexLive, :index
+      live "/new", Live.IndexLive, :new
+      live "/:id/edit", Live.IndexLive, :edit
       live "/post", PostLive.Index, :index
       live "/post/new", PostLive.Index, :new
       live "/post/:id/edit", PostLive.Index, :edit
@@ -82,7 +84,6 @@ defmodule SummerUniWeb.Router do
       live "/post/:id", PostLive.Show, :show
       live "/post/:id/show/edit", PostLive.Show, :edit
     end
-
   end
 
   scope "/", SummerUniWeb do

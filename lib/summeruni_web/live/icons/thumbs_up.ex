@@ -3,7 +3,7 @@ defmodule SummerUniWeb.Icons.ThumbsUp do
 
   def icon(assigns) do
     ~H"""
-    <div class="h-12 w-12">
+    <div class="h-8 w-8">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"

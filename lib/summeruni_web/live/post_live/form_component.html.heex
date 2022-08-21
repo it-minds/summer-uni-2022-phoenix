@@ -1,4 +1,4 @@
-<div>
+<div class="flex flex-col gap-3">
   <h2><%= @title %></h2>
 
   <.form
@@ -7,18 +7,18 @@
     id="post-form"
     phx-target={@myself}
     phx-change="validate"
-    phx-submit="save">
-  
-    <%= label f, :text %>
-    <%= text_input f, :text %>
-    <%= error_tag f, :text %>
-  
-    <%= label f, :likes %>
-    <%= number_input f, :likes %>
-    <%= error_tag f, :likes %>
-  
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+    phx-submit="save"
+    class="flex flex-col gap-3"
+  >
+    <%= label(f, :text) %>
+    <%= text_input(f, :text, class: "rounded") %>
+    <%= error_tag(f, :text) %>
+
+    <div class="self-end">
+      <%= submit("Save",
+        phx_disable_with: "Saving...",
+        class: "bg-blue-600 rounded text-white px-3 py-2 hover:bg-blue-300"
+      ) %>
     </div>
   </.form>
 </div>

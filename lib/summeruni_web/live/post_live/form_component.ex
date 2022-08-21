@@ -24,7 +24,7 @@ defmodule SummerUniWeb.PostLive.FormComponent do
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
-    save_post(socket, socket.assigns.action, post_params)
+    save_post(socket, socket.assigns.action, post_params |> Map.put("likes", 0))
   end
 
   defp save_post(socket, :edit, post_params) do

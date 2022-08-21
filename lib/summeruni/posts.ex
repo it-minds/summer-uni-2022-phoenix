@@ -5,8 +5,20 @@ defmodule SummerUni.Posts do
 
   import Ecto.Query, warn: false
   alias SummerUni.Repo
+  alias SummerUni.PubSub
 
   alias SummerUni.Posts.Post
+
+  @topic "posts"
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(PubSub, @topic)
+  end
+
+  def broadcast(data, event) do
+    Phoenix.PubSub.broadcast!(PubSub, @topic, {event, data})
+    data
+  end
 
   @doc """
   Returns the list of post.
@@ -18,7 +30,8 @@ defmodule SummerUni.Posts do
 
   """
   def list_post do
-    Repo.all(Post) |> Repo.preload(:author)
+    from(p in Post, order_by: [desc: :inserted_at], preload: [:author])
+    |> Repo.all()
   end
 
   @doc """

@@ -1,3 +1,22 @@
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.index_path(@socket, :index)}>
+    <.live_component
+      module={SummerUniWeb.PostLive.FormComponent}
+      id={@post.id || :new}
+      title={@page_title}
+      action={@live_action}
+      post={@post}
+      return_to={Routes.index_path(@socket, :index)}
+      user={@user}
+    />
+  </.modal>
+<% end %>
+
+<%= link("New twixt",
+  to: Routes.index_path(@socket, :new),
+  class: "mb-12 bg-blue-600 rounded text-white px-3 py-2 hover:bg-blue-300 self-end"
+) %>
+
 <div class="flex flex-col gap-8">
   <%= for post <- @posts do %>
     <.live_component module={SummerUniWeb.PostComponent} post={post} id={post.id} />
