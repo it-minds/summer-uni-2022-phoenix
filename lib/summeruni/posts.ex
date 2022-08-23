@@ -15,11 +15,6 @@ defmodule SummerUni.Posts do
     Phoenix.PubSub.subscribe(PubSub, @topic)
   end
 
-  def broadcast(data, event) do
-    Phoenix.PubSub.broadcast!(PubSub, @topic, {event, data})
-    data
-  end
-
   @doc """
   Returns the list of post.
 
@@ -67,6 +62,7 @@ defmodule SummerUni.Posts do
     |> Post.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:author, user)
     |> Repo.insert()
+    |> notify([:post, :create])
   end
 
   @doc """
@@ -85,6 +81,7 @@ defmodule SummerUni.Posts do
     post
     |> Post.changeset(attrs)
     |> Repo.update()
+    |> notify([:post, :update])
   end
 
   @doc """
@@ -114,5 +111,14 @@ defmodule SummerUni.Posts do
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  def notify({:ok, post}, type) do
+    Phoenix.PubSub.broadcast!(PubSub, @topic, {__MODULE__, type, post})
+    {:ok, post}
+  end
+
+  def notify({:error, error}, _event) do
+    {:error, error}
   end
 end

@@ -5,13 +5,11 @@ defmodule SummerUniWeb.Live.IndexLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    socket =
-      socket
-      |> assign_new(:posts, fn _ ->
-        SummerUni.Posts.list_post()
-      end)
-
-    {:ok, socket}
+    {:ok,
+     socket
+     |> assign_new(:posts, fn _ ->
+       list_post()
+     end)}
   end
 
   @impl true
@@ -25,7 +23,7 @@ defmodule SummerUniWeb.Live.IndexLive do
     post = Posts.get_post!(id)
     {:ok, _} = Posts.delete_post(post)
 
-    {:noreply, assign(socket, :post_collection, list_post())}
+    {:noreply, assign(socket, :posts, list_post())}
   end
 
   @impl true
