@@ -107,10 +107,19 @@ end
 
 ---
 
+# Cheat sheet
+
+Learning new things is hard. Lets go!
+
+[https://devhints.io/elixir](https://devhints.io/elixir)
+
+---
+
 # Tasks
 
 ---
-__it-minds/summer-uni-2022-phoenix__
+
+**it-minds/summer-uni-2022-phoenix**
 
 ## Add like functionality
 
